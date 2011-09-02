@@ -87,9 +87,9 @@
               <relocations>
                 <relocation>
                   <pattern>org.eclipse.jetty</pattern>
-                  <shadedPattern>org.eclipse.jetty.shaded</shadedPattern>
+                  <shadedPattern>org.eclipse.jetty.websocket.internal</shadedPattern>
                   <excludes>
-                    <exclude>org.eclipse.jetty.websocket.WebSocket</exclude>
+                    <exclude>org.eclipse.jetty.websocket.*</exclude>
                   </excludes>
                 </relocation>
               </relocations>
