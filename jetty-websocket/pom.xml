@@ -18,14 +18,14 @@
       <version>${project.version}</version>
     </dependency>
     <dependency>
-    	<groupId>javax.servlet</groupId>
-    	<artifactId>servlet-api</artifactId>
-    	<type>jar</type>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <type>jar</type>
     </dependency>
     <dependency>
-    	<groupId>org.eclipse.jetty.toolchain</groupId>
-    	<artifactId>jetty-test-helper</artifactId>
-    	<scope>test</scope>
+      <groupId>org.eclipse.jetty.toolchain</groupId>
+      <artifactId>jetty-test-helper</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
@@ -64,6 +64,41 @@
             <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
           </archive>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-shade-plugin</artifactId>
+        <version>1.4</version>
+        <executions>
+          <execution>
+            <id>shade-client</id>
+            <phase>package</phase>
+            <goals>
+              <goal>shade</goal>
+            </goals>
+            <configuration>
+              <artifactSet>
+                <excludes>
+                  <exclude>org.slf4j:*</exclude>
+                  <exclude>javax.servlet:*</exclude>
+                  <exclude>org.eclipse.jetty.toolchain:*</exclude>
+                </excludes>
+              </artifactSet>
+              <relocations>
+                <relocation>
+                  <pattern>org.eclipse.jetty</pattern>
+                  <shadedPattern>org.eclipse.jetty.shaded</shadedPattern>
+                  <excludes>
+                    <exclude>org.eclipse.jetty.websocket.WebSocket</exclude>
+                  </excludes>
+                </relocation>
+              </relocations>
+              <shadedArtifactAttached>true</shadedArtifactAttached>
+              <shadedClassifierName>client</shadedClassifierName>
+              <minimizeJar>false</minimizeJar>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
